@@ -1,0 +1,43 @@
+<%- include('partials/head') %>
+
+<h1>Adding a new Author</h1>
+
+<form method="POST" action="/author/new">
+    First Name:
+    <input type="text" name="fName"><br>
+    Last Name:
+    <input type="text" name="lName"><br>
+    Date of Birth:
+    <input type="date" name="birthDate">
+    <br>
+    Date of Death:  
+    <input type="date" name="deathDate">
+    <br>
+    Sex:
+    <input type="radio" name="sex" value="M" checked>
+        <label for="M">M</label>
+    <input type="radio" name="sex" value="F">
+        <label for="F">F</label><br>
+    Country:
+    <select name="country">
+        <option value="">Select country:</option>
+        <% for(let i in countries) { %>
+            <option value="<%=countries[i]%>"><%=countries[i]%></option>}
+        <% } %>
+    </select>
+    <br>
+    Profession:
+    <input type="text" name="profession"><br>
+    Biography: <br>
+    <textarea name="biography" rows="4" cols="50"></textarea><br>
+    Portrait URL:
+    <input type="text" name="portrait"><br>
+    <button>Add Author</button>
+</form>
+
+<% if (typeof message != "undefined"){ %>
+    <h3><%=message%></h3>
+<% } %>
+
+<%- include('partials/footer') %>
+

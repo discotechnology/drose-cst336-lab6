@@ -1,5 +1,6 @@
 import express from 'express';
 import mysql from 'mysql2/promise';
+import fetch from 'node-fetch';
 
 const app = express();
 
@@ -23,6 +24,46 @@ const pool = mysql.createPool({
 app.get('/', (req, res) => {
    res.render('index');
 });
+
+app.get('/author/new', async(req, res) => {
+    let response = await fetch("https://restcountries.com/v3.1/independent?status=true");
+    let data = await response.json();
+    let countries = [];
+    for(let i in data) {
+        countries[i] = data[i].name.common;
+    }
+    countries.sort();
+    res.render('newAuthor',{countries: countries});
+});
+
+app.post("/author/new", async function(req, res){
+    let fName = req.body.fName;
+    let lName = req.body.lName;
+    let birthDate = req.body.birthDate;
+    let deathDate = req.body.deathDate;
+    let sex = req.body.sex;
+    let country = req.body.country;
+    let profession = req.body.profession;
+    let biography = req.body.biography;
+    let portrait = req.body.portrait;
+    let sql = `INSERT INTO q_authors
+                (firstName, lastName, dob, dod, sex, country, profession, biography, portrait)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    let params = [fName, lName, birthDate, deathDate, sex, country, profession, biography, portrait];
+    const [rows] = await pool.query(sql, params);
+
+    let response = await fetch("https://restcountries.com/v3.1/independent?status=true");
+    let data = await response.json();
+    let countries = [];
+    for(let i in data) {
+        countries[i] = data[i].name.common;
+    }
+    countries.sort();
+
+    res.render("newAuthor", 
+                {"message": "Author added!", countries: countries});
+});
+
 
 app.get("/dbTest", async(req, res) => {
    try {
