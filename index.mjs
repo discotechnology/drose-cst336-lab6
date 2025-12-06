@@ -64,6 +64,23 @@ app.post("/author/new", async function(req, res){
                 {"message": "Author added!", countries: countries});
 });
 
+app.get("/authors", async function(req, res){
+    let sql = `SELECT *
+            FROM q_authors
+            ORDER BY lastName`;
+    const [rows] = await pool.query(sql);
+    res.render("authorList", {"authors":rows});
+});
+
+app.get("/author/delete", async function(req, res){
+    let sql = `DELETE FROM q_authors
+            WHERE authorId = ?`;
+    let params = [req.query.authorId];
+    const [rows] = await pool.query(sql, params);
+    res.redirect("/authors");
+});
+
+
 
 app.get("/dbTest", async(req, res) => {
    try {
