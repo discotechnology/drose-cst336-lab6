@@ -72,6 +72,53 @@ app.get("/authors", async function(req, res){
     res.render("authorList", {"authors":rows});
 });
 
+app.get("/author/edit", async function(req, res){
+    let response = await fetch("https://restcountries.com/v3.1/independent?status=true");
+    let data = await response.json();
+    let countries = [];
+    for(let i in data) {
+        countries[i] = data[i].name.common;
+    }
+    countries.sort();
+
+    let authorId = req.query.authorId;
+    let sql = `SELECT *, 
+        DATE_FORMAT(dob, '%Y-%m-%d') as dobISO,
+        DATE_FORMAT(dod, '%Y-%m-%d') as dodISO
+        FROM q_authors
+        WHERE authorId =  ${authorId}`;
+    const [rows] = await pool.query(sql);
+    res.render("editAuthor", {"authorInfo":rows, countries: countries});
+});
+
+app.post("/author/edit", async function(req, res){
+    let fName = req.body.fName;
+    let lName = req.body.lName;
+    let birthDate = req.body.birthDate;
+    let deathDate = req.body.deathDate;
+    let sex = req.body.sex;
+    let country = req.body.country;
+    let profession = req.body.profession;
+    let biography = req.body.biography;
+    let portrait = req.body.portrait;
+
+    let sql = `UPDATE q_authors
+                    SET firstName = ?, 
+                    lastName = ?, 
+                    dob = ?, 
+                    dod = ?,
+                    sex = ?,
+                    country = ?,
+                    profession = ?,
+                    biography = ?,
+                    portrait = ?
+                WHERE authorId = ?`;
+    let params = [fName, lName, birthDate, deathDate, sex, country, profession, biography, portrait, req.body.authorId];
+    const [rows] = await pool.query(sql, params);
+    res.redirect("/authors");   
+});
+
+
 app.get("/author/delete", async function(req, res){
     let sql = `DELETE FROM q_authors
             WHERE authorId = ?`;
