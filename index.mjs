@@ -162,6 +162,37 @@ app.post("/quote/new", async function(req, res){
     res.render("newQuote",{"message": "Quote added!", categories: categories, authors: rows2});
 });
 
+app.get('/quote/edit', async function(req, res) {
+    let sql = `SELECT * FROM q_authors ORDER BY firstName`;
+    const [rows] = await pool.query(sql);
+
+    let sql2 = `SELECT * FROM q_quotes
+                WHERE quoteId = ?`;
+    let params = [req.query.quoteId];
+    const [quotes] = await pool.query(sql2, params);
+
+    let categories = ["Inspirational","Moral","Life","Wisdom","Motivational","Freedom","Humor","Friendship","Love","Other"]
+    res.render('editQuote',{categories: categories, authors: rows, quotes: quotes});
+});
+
+app.post("/quote/edit", async function(req, res){
+    let quote = req.body.quote;
+    let authorId = req.body.authorId;
+    let category = req.body.category;
+    let likes = req.body.likes;
+    let sql = `UPDATE q_quotes
+                SET quote = ?,
+                    authorId = ?,
+                    category = ?,
+                    likes = ?
+                WHERE quoteId = ?`;
+
+    let params = [quote, authorId, category, likes, req.body.quoteId];
+    const [rows] = await pool.query(sql, params);
+
+    res.redirect("/quotes");
+});
+
 app.get("/quote/delete", async function(req, res){
     let sql = `DELETE FROM q_quotes
             WHERE quoteId = ?`;
