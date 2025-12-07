@@ -1,32 +1,37 @@
 <%- include('partials/head') %>
 
-<h1>Edit Quote</h1>
+<div class="content-wrapper">
+    <div class="content">
 
-<form method="POST" action="/quote/edit">
+    <form method="POST" action="/quote/edit">
+        <h1>Edit Quote</h1><br>
 
-    <input type="hidden" name="quoteId" value="<%=quotes[0].quoteId%>">
-    Quote: <br>
-    <textarea name="quote" rows="4" cols="50"><%=quotes[0].quote%></textarea><br>
-    Author:
-    <select name="authorId">
-        <option value="">Select author:</option>
-        <% for(let i in authors) { %>
-            <option value="<%=authors[i].authorId%>"
-                <% if(quotes[0].authorId == authors[i].authorId) { %> selected <% } %>><%=authors[i].firstName%> <%=authors[i].lastName%></option>}
-        <% } %>
-    </select><br>
-    Category:
-    <select name="category">
-        <option value="">Select category:</option>
-        <% for(let i in categories) { %>
-            <option value="<%=categories[i]%>"
-                <% if(quotes[0].category == categories[i]) { %> selected <% } %>><%=categories[i]%></option>}
-        <% } %>
-    </select><br>
-    Likes:
-    <input type="number" name="likes" value="<%=quotes[0].likes%>""><br>
+        <input type="hidden" name="quoteId" value="<%=quotes[0].quoteId%>">
+        Quote: <br>
+        <textarea name="quote" rows="4" cols="50"><%=quotes[0].quote%></textarea><br><br>
+        Author:
+        <select name="authorId">
+            <option value="">Select author:</option>
+            <% for(let i in authors) { %>
+                <option value="<%=authors[i].authorId%>"
+                    <% if(quotes[0].authorId == authors[i].authorId) { %> selected <% } %>><%=authors[i].firstName%> <%=authors[i].lastName%></option>}
+            <% } %>
+        </select><br><br>
+        Category:
+        <select name="category">
+            <option value="">Select category:</option>
+            <% for(let i in categories) { %>
+                <option value="<%=categories[i]%>"
+                    <% if(quotes[0].category == categories[i]) { %> selected <% } %>><%=categories[i]%></option>}
+            <% } %>
+        </select><br><br>
+        Likes:
+        <input type="number" name="likes" value="<%=quotes[0].likes%>""><br><br>
 
-    <button>Update Quote</button>
-</form>
+        <button>Update Quote</button>
+    </form>
+
+    </div>
+</div>
 
 <%- include('partials/footer') %>

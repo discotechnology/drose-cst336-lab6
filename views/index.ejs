@@ -1,24 +1,29 @@
 <%- include('partials/head') %>
 
-<h1> Famous Quotes - Admin Section </h1>
+<div class="content-wrapper">
+    <div class="content">
 
-<form action="/author/new">
-    <button>Add Authors</button>
-</form><br>
-
-
-<form action="/quote/new">
-    <button>Add Quotes</button>
-</form><br>
+        <div class="dashboard">
+            <form action="/author/new">
+                <button class="btn btn-info">Add Authors</button>
+            </form><br>
 
 
-<form action="/authors">
-    <button>List Authors</button>
-</form><br>
+            <form action="/quote/new">
+                <button class="btn btn-info">Add Quotes</button>
+            </form><br>
 
-<form action="/quotes">
-    <button>List Quotes</button>
-</form>
+
+            <form action="/authors">
+                <button class="btn btn-warning">List Authors</button>
+            </form><br>
+
+            <form action="/quotes">
+                <button class="btn btn-warning">List Quotes</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 <%- include('partials/footer') %>
 

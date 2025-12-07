@@ -1,16 +1,24 @@
 <%- include('partials/head') %>
 
-<h1> Update/Delete Quotes </h1>
+<div class="content-wrapper">
+    <div class="content">
+        <div class="list">
 
 
-<% for (i=0; i < quotes.length; i++) { %>
-    <a href="/quote/edit?quoteId=<%=quotes[i].quoteId%>">UPDATE</a>
+        <h1> Update/Delete Quotes </h1><br>
 
-    <a href="/quote/delete?quoteId=<%=quotes[i].quoteId%>">DELETE</a>
+        <% for (i=0; i < quotes.length; i++) { %>
+            <a href="/quote/edit?quoteId=<%=quotes[i].quoteId%>" class="btn btn-primary">UPDATE</a>
 
-    <%=quotes[i].quote.substring(0, 50)%>... <br>
+            <a href="/quote/delete?quoteId=<%=quotes[i].quoteId%>" class="btn btn-danger">DELETE</a>
 
-<% } %>
+            <%=quotes[i].quote.substring(0, 50)%>... <br>
+
+        <% } %>
+
+        </div>
+    </div> 
+</div>
 
 
 <%- include('partials/footer') %>
