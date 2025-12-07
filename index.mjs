@@ -162,6 +162,14 @@ app.post("/quote/new", async function(req, res){
     res.render("newQuote",{"message": "Quote added!", categories: categories, authors: rows2});
 });
 
+app.get("/quote/delete", async function(req, res){
+    let sql = `DELETE FROM q_quotes
+            WHERE quoteId = ?`;
+    let params = [req.query.quoteId];
+    const [rows] = await pool.query(sql, params);
+    res.redirect("/quotes");
+});
+
 app.get("/dbTest", async(req, res) => {
    try {
         const [rows] = await pool.query(
