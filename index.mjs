@@ -127,12 +127,20 @@ app.get("/author/delete", async function(req, res){
     res.redirect("/authors");
 });
 
+app.get("/quotes", async function(req, res){
+    let sql = `SELECT *
+            FROM q_quotes
+            ORDER BY quoteId`;
+    const [rows] = await pool.query(sql);
+    res.render("quoteList", {"quotes":rows});
+});
+
 
 
 app.get("/dbTest", async(req, res) => {
    try {
         const [rows] = await pool.query(
-            "SELECT * FROM q_authors");
+            "SELECT * FROM q_quotes");
         res.send(rows);
     } catch (err) {
         console.error("Database error:", err);
