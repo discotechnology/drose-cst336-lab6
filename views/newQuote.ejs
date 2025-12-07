@@ -1,0 +1,33 @@
+<%- include('partials/head') %>
+
+<h1>Adding A New Quote</h1>
+
+<form method="POST" action="/quote/new">
+
+    Quote: <br>
+    <textarea name="quote" rows="4" cols="50"></textarea><br>
+    Country:
+    <select name="authorId">
+        <option value="">Select author:</option>
+        <% for(let i in authors) { %>
+            <option value="<%=authors[i].authorId%>"><%=authors[i].firstName%> <%=authors[i].lastName%></option>}
+        <% } %>
+    </select><br>
+    Category:
+    <select name="category">
+        <option value="">Select category:</option>
+        <% for(let i in categories) { %>
+            <option value="<%=categories[i]%>"><%=categories[i]%></option>}
+        <% } %>
+    </select><br>
+    Likes:
+    <input type="number" name="likes" value=""><br>
+
+    <button>Add Quote</button>
+</form>
+
+<% if (typeof message != "undefined"){ %>
+    <h3><%=message%></h3>
+<% } %>
+
+<%- include('partials/footer') %>

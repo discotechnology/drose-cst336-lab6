@@ -135,7 +135,32 @@ app.get("/quotes", async function(req, res){
     res.render("quoteList", {"quotes":rows});
 });
 
+app.get('/quote/new', async function(req, res) {
+    let sql = `SELECT * FROM q_authors ORDER BY firstName`;
+    const [rows] = await pool.query(sql);
 
+    let categories = ["Inspirational","Moral","Life","Wisdom","Motivational","Freedom","Humor","Friendship","Love","Other"]
+    res.render('newQuote',{categories: categories, authors: rows});
+});
+
+app.post("/quote/new", async function(req, res){
+    let quote = req.body.quote;
+    let authorId = req.body.authorId;
+    let category = req.body.category;
+    let likes = req.body.likes;
+    let sql = `INSERT INTO q_quotes
+                (quote, authorId, category, likes)
+                VALUES (?, ?, ?, ?)`;
+
+    let params = [quote, authorId, category, likes];
+    const [rows] = await pool.query(sql, params);
+
+    let sql2 = `SELECT * FROM q_authors ORDER BY firstName`;
+    const [rows2] = await pool.query(sql2);
+    let categories = ["Inspirational","Moral","Life","Wisdom","Motivational","Freedom","Humor","Friendship","Love","Other"]
+
+    res.render("newQuote",{"message": "Quote added!", categories: categories, authors: rows2});
+});
 
 app.get("/dbTest", async(req, res) => {
    try {
